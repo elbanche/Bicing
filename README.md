@@ -2,7 +2,7 @@
 - [Files](#files)
 - [Instructions](#instructions)
 
-# FILES
+# Files
 
 ## generate_station_csv.py
 A script to automates the process of generating CSV files for individual stations from a set of compressed data files.
