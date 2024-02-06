@@ -10,4 +10,4 @@ A script to automates the process of generating CSV files for individual station
 
 
 ## ./data/
-For the latest data, users should check the official source at [OpenData Ajuntament Barcelona](https://opendata-ajuntament.barcelona.cat/data/ca/dataset/estat-estacions-bicing)
+All files from 2023. For the latest data, users should check the official source at [OpenData Ajuntament Barcelona](https://opendata-ajuntament.barcelona.cat/data/ca/dataset/estat-estacions-bicing)
