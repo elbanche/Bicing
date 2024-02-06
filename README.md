@@ -1,3 +1,9 @@
+# Index
+- [Files](#files)
+- [Instructions](#instructions)
+
+# FILES
+
 ## generate_station_csv.py
 A script to automates the process of generating CSV files for individual stations from a set of compressed data files.
 
@@ -21,3 +27,5 @@ All files from 2023. For the latest data, users should check the official source
 
 ## RNN_model.ipynb
 Creation, training, testing, and analysis of the RNN model to predict demand within a time window for a station in the network.
+
+# Instructions
