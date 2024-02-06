@@ -2,6 +2,7 @@ import py7zr
 import pandas as pd
 import argparse
 from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 import os
 
 start_year_month = '2023_01'
@@ -47,7 +48,7 @@ while current_date <= end_date:
     files.extend([os.path.join(zip_files_directory, file) for file in files_with_prefix])
 
     # Move to the next month
-    current_date += timedelta(days=30)
+    current_date += relativedelta(months=1)
 
 print("Files found:")
 for file_path in files:

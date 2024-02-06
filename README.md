@@ -8,7 +8,7 @@ A script to automates the process of generating CSV files for individual station
    - `--zip_files_directory`: The path where the compressed data files are located.
    - `--output_file_path`: The path where the generated CSV files will be saved.
 
-## generate_station_csv
+## resample_csv.oy
 A script to automate the resampling process and update the columns for later uses.
 
 **Command-Line Arguments:**
@@ -18,3 +18,6 @@ A script to automate the resampling process and update the columns for later use
 
 ## ./data/
 All files from 2023. For the latest data, users should check the official source at [OpenData Ajuntament Barcelona](https://opendata-ajuntament.barcelona.cat/data/ca/dataset/estat-estacions-bicing)
+
+## RNN_model.ipynb
+Creation, training, testing, and analysis of the RNN model to predict demand within a time window for a station in the network.
