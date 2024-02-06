@@ -16,7 +16,7 @@ parser.add_argument('--station_id', type=int, default=station_id, help='ID of th
 parser.add_argument('--start_year_month', type=str, default=start_year_month, help='Start of the period (format: YYYY_MM)')
 parser.add_argument('--end_year_month', type=str, default=end_year_month, help='End of the period (format: YYYY_MM)')
 parser.add_argument('--zip_files_directory', type=str, default=zip_files_directory, help='Path to the directory containing .7z files')
-parser.add_argument('--output_file_path', type=str, default=output_file_path, help='Path to the file to be saved')
+parser.add_argument('--output_csv_file_path', type=str, default=output_csv_file_path, help='Path to the file to be saved')
 
 # Parse the arguments
 args, unknown = parser.parse_known_args()
@@ -26,7 +26,7 @@ station_id = args.station_id
 start_year_month = args.start_year_month
 end_year_month = args.end_year_month
 zip_files_directory = args.zip_files_directory
-output_file_path = args.output_file_path
+output_csv_file_path = args.output_csv_file_path
 
 # Convert start and end year-month to datetime objects
 start_date = datetime.strptime(start_year_month, '%Y_%m')
