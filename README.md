@@ -1,31 +1,13 @@
 # Index
 - [Description](#Description)
-- [Project structure](#Project structure)
-- [Instructions to run](#Instructions to run)
+- [Project structure](#project-structure)
+- [Instructions to run](#instructions-to-run)
 - [Results](#Results)
 
 # Description
 
 
 # Project structure
-
-./
-│
-├── data/
-│   ├── dataframes/				
-│   └── raw/
-│
-├── models/
-│   ├── avg/
-│   ├── dummy/
-│   ├── rnn/
-│   ├── rnn_by_time/
-│   ├── rnn_changes/
-│   └── analyze_models.ipynb
-│
-├── config.py
-└── README.txt
-
 
 `./data/raw/`: Files to process obtained from the official source [OpenData Ajuntament Barcelona](https://opendata-ajuntament.barcelona.cat/data/ca/dataset/estat-estacions-bicing). All the files from 2023 are here. For the most recent data, users should check online.
 
