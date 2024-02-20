@@ -29,9 +29,9 @@
 3. Process the data, train all models, and execute testing for each one using the following script:
 
 ```
-python generate_station_csv.py
-python resample_csv.py
-python split_train_test.py
+python .\data\generate_station_csv.py
+python .\data\resample_csv.py
+python .\data\split_train_test.py
 python .\models\dummy\model_dummy.py
 python .\models\avg\model_avg.py
 python .\models\rnn\model_rnn.py
