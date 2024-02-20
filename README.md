@@ -26,7 +26,7 @@
 
 2. Configure the config.py file
 
-3. Process the data, train all models, and execute testing for each one using the following script:
+3. Process the data, train all models, and execute testing for each one using the following script from root:
 
 ```
 python .\data\generate_station_csv.py
