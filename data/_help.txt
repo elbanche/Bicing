@@ -1,1 +1,0 @@
-The name of the file that comes within 7z has to be equal to 7z (the one from March 2023 was wrong)
