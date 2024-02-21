@@ -35,7 +35,6 @@ python .\data\split_train_test.py
 python .\models\dummy\model_dummy.py
 python .\models\avg\model_avg.py
 python .\models\rnn\model_rnn.py
-python .\models\rnn_changes\model_rnn_changes.py
 python .\models\rnn_by_time\model_rnn_by_time_test.py
 ```
 
