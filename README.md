@@ -11,7 +11,7 @@
 
 `./data/raw/`: Files to process obtained from the official source [OpenData Ajuntament Barcelona](https://opendata-ajuntament.barcelona.cat/data/ca/dataset/estat-estacions-bicing). All the files from 2023 are here. For the most recent data, users should check online.
 
-`./data/dataframes/`: The dataframes are created to organize the data in a way that makes it easy to consume.
+`./data/dataframes/`: Dataframes created to organize the data in a way that makes it easy to consume.
 
 `./models/`: Contain folders where each one implements different prediction models.
 
