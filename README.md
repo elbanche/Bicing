@@ -11,7 +11,7 @@
 
 `./data/raw/`: Files to process obtained from the official source [OpenData Ajuntament Barcelona](https://opendata-ajuntament.barcelona.cat/data/ca/dataset/estat-estacions-bicing). All the files from 2023 are here. For the most recent data, users should check online.
 
-`./data/dataframes/`: The dataframes are created to organize the data in a way that makes it easy to consume.
+`./data/dataframes/`: Dataframes created to organize the data in a way that makes it easy to consume.
 
 `./models/`: Contain folders where each one implements different prediction models.
 
@@ -35,8 +35,7 @@ python .\data\split_train_test.py
 python .\models\dummy\model_dummy.py
 python .\models\avg\model_avg.py
 python .\models\rnn\model_rnn.py
-python .\models\rnn_changes\model_rnn_changes.py
-python .\models\rnn_by_time\model_rnn_by_time_test.py
+python .\models\rnn_by_time\model_rnn_by_time.py
 ```
 
 4. Analyze the results from the Jupyter Notebook named 'analyze_models'.
