@@ -1,21 +1,24 @@
-import sys
-sys.path.append("..") 
-
 import py7zr
 import pandas as pd
 import argparse
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import os 
-import config  
+import json
 
-zip_files_path = './raw/'
-unziped_files_in_csv_path = './dataframes/df.csv'
+current_path = os.path.dirname(os.path.abspath(__file__))
+config_path = os.path.join(current_path, '../config.json')
 
-first_datetime_to_test = datetime.strptime(config.first_datetime_to_test, '%Y-%m-%d %H:%M')
-start_date = first_datetime_to_test - timedelta(days=config.days_for_training, hours=0, minutes=0)
+with open(config_path, 'r') as f:
+    config = json.load(f)
+
+zip_files_path = os.path.join(current_path, './raw/')
+unziped_files_in_csv_path = os.path.join(current_path, './dataframes/df.csv')
+
+first_datetime_to_test = datetime.strptime(config['first_datetime_to_test'], '%Y-%m-%d %H:%M')
+start_date = first_datetime_to_test - timedelta(days=config['days_for_training'], hours=0, minutes=0)
 start_date = start_date.replace(day=1)
-end_date = first_datetime_to_test + timedelta(days=config.days_for_testing, hours=0, minutes=0)
+end_date = first_datetime_to_test + timedelta(days=config['days_for_testing'], hours=0, minutes=0)
 
 # Generate and filter filenames for each month in the range
 files_in_directory = os.listdir(zip_files_path)
@@ -51,7 +54,7 @@ for file_7z_path in files:
     df_aux = pd.read_csv(file_csv_path)
 
     # Filtrar las estaciones iguales a station_id y concatenar con el resultado final
-    df = pd.concat([df, df_aux[df_aux['station_id'] == config.station_id]])
+    df = pd.concat([df, df_aux[df_aux['station_id'] == config['station_id']]])
 
     # Remove the extracted CSV file after loading it into the DataFrame
     os.remove(file_csv_path)

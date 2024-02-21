@@ -2,8 +2,6 @@
 # coding: utf-8
 
 # In[1]:
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -15,6 +13,7 @@ from sklearn.preprocessing import StandardScaler
 import pickle
 import argparse
 import os
+import json
 
 
 # In[2]:
@@ -28,16 +27,18 @@ time_of_the_day = args.time_of_the_day
 
 # In[3]:
 
-
-name_model = 'RNN_by_time'
-
 seq_length = 6 # model memory
 
-train_csv_path = '../../data/dataframes/dfTrain.csv'
-test_csv_path = '../../data/dataframes/dfTest.csv'
-predictions_csv_path = './dfPredictions.csv'
+current_path = os.path.dirname(os.path.abspath(__file__))
+config_path = os.path.join(current_path, '../../config.json')
 
-pickles_path = './pickles' 
+with open(config_path, 'r') as f:
+    config = json.load(f)
+
+train_csv_path = os.path.join(current_path, '../../data/dataframes/dfTrain.csv')
+test_csv_path = os.path.join(current_path, '../../data/dataframes/dfTest.csv')
+predictions_csv_path = os.path.join(current_path, './dfPredictions.csv')
+pickles_path = os.path.join(current_path, './pickles')
 
 
 # In[ ]:

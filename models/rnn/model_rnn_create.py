@@ -4,9 +4,6 @@
 # In[1]:
 
 
-import sys
-sys.path.append("../..")
-
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -16,22 +13,24 @@ from keras import layers
 from datetime import datetime, timedelta
 from sklearn.preprocessing import StandardScaler
 import pickle
-import config
-
+import os 
+import json
 
 # In[2]:
 
-
-name_model = 'RNN'
-
 seq_length = 6 # model memory
 
-train_csv_path = '../../data/dataframes/dfTrain.csv'
-test_csv_path = '../../data/dataframes/dfTest.csv'
-predictions_csv_path = './dfPredictions.csv'
+current_path = os.path.dirname(os.path.abspath(__file__))
+config_path = os.path.join(current_path, '../../config.json')
 
-rnn_model_pickle_path = './model.pickle' 
-rnn_scaler_pickle_path = './scaler.pickle' 
+with open(config_path, 'r') as f:
+    config = json.load(f)
+
+train_csv_path = os.path.join(current_path, '../../data/dataframes/dfTrain.csv')
+test_csv_path = os.path.join(current_path, '../../data/dataframes/dfTest.csv')
+predictions_csv_path = os.path.join(current_path, './dfPredictions.csv')
+model_pickle_path = os.path.join(current_path, './model.pickle')
+scaler_pickle_path = os.path.join(current_path, './scaler.pickle')
 
 
 # In[3]:
@@ -61,7 +60,7 @@ def df_to_X_y(data):
 
 
 sc = StandardScaler()
-training_data = sc.fit_transform(df['num_bikes_available'].values.reshape(-1, 1))
+training_data = sc.fit_transform(df['net_station_change'].values.reshape(-1, 1))
 
 trainX, trainY = df_to_X_y(training_data)
 
@@ -103,9 +102,9 @@ history = model.fit(
 
 
 # Save
-with open(rnn_model_pickle_path, 'wb') as file:
+with open(model_pickle_path, 'wb') as file:
     pickle.dump(model, file)
 
-with open(rnn_scaler_pickle_path, 'wb') as file:
+with open(scaler_pickle_path, 'wb') as file:
     pickle.dump(sc, file)
 

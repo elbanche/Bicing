@@ -3,33 +3,31 @@
 
 # In[10]:
 
-
-import sys
-sys.path.append("../..")
-
 import pandas as pd
 import pickle
 import numpy as np
-import config
 from sklearn.preprocessing import StandardScaler
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import argparse
 import os
+import json
 
 
 # In[ ]:
 
-
-name_model = 'RNN_by_time'
-
 seq_length = 6 # model memory
 
-train_csv_path = '../../data/dataframes/dfTrain.csv'
-test_csv_path = '../../data/dataframes/dfTest.csv'
-predictions_csv_path = './dfPredictions.csv'
+current_path = os.path.dirname(os.path.abspath(__file__))
+config_path = os.path.join(current_path, '../../config.json')
 
-pickles_path = './pickles' 
+with open(config_path, 'r') as f:
+    config = json.load(f)
+
+train_csv_path = os.path.join(current_path, '../../data/dataframes/dfTrain.csv')
+test_csv_path = os.path.join(current_path, '../../data/dataframes/dfTest.csv')
+predictions_csv_path = os.path.join(current_path, './dfPredictions.csv')
+pickles_path = os.path.join(current_path, './pickles')
 
 
 # In[11]:
@@ -52,7 +50,7 @@ while iter <= datetime.strptime('23:30', '%H:%M'):
     models.append(model_iter)
     scs.append(sc_iter)    
     
-    iter += timedelta(minutes=config.minutes_inc)
+    iter += timedelta(minutes=config['minutes_inc'])
 
 
 # In[12]:
@@ -60,12 +58,12 @@ while iter <= datetime.strptime('23:30', '%H:%M'):
 
 def GetModel(time):
     time = (time - time.astype('datetime64[D]')) / np.timedelta64(1, 'm')
-    pos = int(time // config.minutes_inc)
+    pos = int(time // config['minutes_inc'])
     return models[pos]
 
 def GetSC(time):
     time = (time - time.astype('datetime64[D]')) / np.timedelta64(1, 'm')
-    pos = int(time // config.minutes_inc)
+    pos = int(time // config['minutes_inc'])
     return scs[pos]
 
 
@@ -132,7 +130,7 @@ testY_i = testY[:, 0, 0]
 testYTime_i = testYTime[:, 0, 0]
 testY_num_bikes_available_i = testY_num_bikes_available[:, 0, 0]
 
-for i in range(1, config.prediction_window + 1):
+for i in range(1, config['prediction_window'] + 1):
     
     aux = np.empty((0, 1))
     predict = np.empty((0, 1))
@@ -149,7 +147,6 @@ for i in range(1, config.prediction_window + 1):
     predict = np.maximum(predict, 0)
 
     dfAux = pd.DataFrame({
-        'Model' : name_model,
         'LastTimeWithData': testXtimeAux,
         'ti': i,
         'Time': testYTime_i,

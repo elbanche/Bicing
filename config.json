@@ -1,0 +1,9 @@
+{
+  "station_id": 2,
+  "freq_time": "30T",
+  "minutes_inc": 30,
+  "prediction_window": 6,
+  "first_datetime_to_test": "2023-11-17 13:00",
+  "days_for_training": 300,
+  "days_for_testing": 7
+}

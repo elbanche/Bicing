@@ -4,21 +4,23 @@
 # In[1]:
 
 
-import sys
-sys.path.append("../..")
-
 import pandas as pd
 from datetime import datetime, timedelta
-import config
+import os 
+import json
 
 
 # In[2]:
 
+current_path = os.path.dirname(os.path.abspath(__file__))
+config_path = os.path.join(current_path, '../../config.json')
 
-name_model = 'Dummy'
-train_csv_path = '../../data/dataframes/dfTrain.csv'
-test_csv_path = '../../data/dataframes/dfTest.csv'
-predictions_csv_path = './dfPredictions.csv'
+with open(config_path, 'r') as f:
+    config = json.load(f)
+
+train_csv_path = os.path.join(current_path, '../../data/dataframes/dfTrain.csv')
+test_csv_path = os.path.join(current_path, '../../data/dataframes/dfTest.csv')
+predictions_csv_path = os.path.join(current_path, './dfPredictions.csv')
 
 
 # In[3]:
@@ -39,9 +41,8 @@ df['time'] = pd.to_datetime(df['last_updated_dt'])
 dfPredictions = pd.DataFrame()
 
 for index, row in df.iloc[1:].iterrows():
-    for i in range(1, config.prediction_window + 1):
+    for i in range(1, config['prediction_window'] + 1):
         dfAux = pd.DataFrame({
-            'Model': [name_model],
             'LastTimeWithData': [df['time'].shift(i).iloc[index]],
             'ti': [i],
             'Time': [row['time']],

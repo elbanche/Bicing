@@ -1,12 +1,16 @@
-import sys
-sys.path.append("..") 
-
 import pandas as pd
 import argparse
-import config
+import os 
+import json
 
-unziped_files_in_csv_path = './dataframes/df.csv'
-resample_csv_path = './dataframes/dfResample.csv'
+current_path = os.path.dirname(os.path.abspath(__file__))
+config_path = os.path.join(current_path, '../config.json')
+
+with open(config_path, 'r') as f:
+    config = json.load(f)
+
+unziped_files_in_csv_path = os.path.join(current_path, './dataframes/df.csv')
+resample_csv_path = os.path.join(current_path, './dataframes/resample_csv_path.csv')
 
 df = pd.read_csv(unziped_files_in_csv_path)
 
@@ -23,7 +27,7 @@ aggs = {
 
 groups = []
 for i in df.station_id.unique():
-    g = df[df.station_id==i].resample(config.freq_time, on='last_updated_dt').agg(aggs)
+    g = df[df.station_id==i].resample(config['freq_time'], on='last_updated_dt').agg(aggs)
     g['station_id'] = i
     g = g.reset_index()
     g = g.set_index(['station_id', 'last_updated_dt'])

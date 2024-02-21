@@ -3,39 +3,38 @@
 
 # In[1]:
 
-
-import sys
-sys.path.append("../..")
-
 import pandas as pd
 import pickle
 import numpy as np
-import config
 from sklearn.preprocessing import StandardScaler
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
+import os 
+import json
 
 
 # In[2]:
 
-
-name_model = 'RNN'
-
 seq_length = 6 # model memory
 
-train_csv_path = '../../data/dataframes/dfTrain.csv'
-test_csv_path = '../../data/dataframes/dfTest.csv'
-predictions_csv_path = './dfPredictions.csv'
+current_path = os.path.dirname(os.path.abspath(__file__))
+config_path = os.path.join(current_path, '../../config.json')
 
-rnn_model_pickle_path = './model.pickle' 
-rnn_scaler_pickle_path = './scaler.pickle' 
+with open(config_path, 'r') as f:
+    config = json.load(f)
+
+train_csv_path = os.path.join(current_path, '../../data/dataframes/dfTrain.csv')
+test_csv_path = os.path.join(current_path, '../../data/dataframes/dfTest.csv')
+predictions_csv_path = os.path.join(current_path, './dfPredictions.csv')
+model_pickle_path = os.path.join(current_path, './model.pickle')
+scaler_pickle_path = os.path.join(current_path, './scaler.pickle')
 
 
 # In[3]:
 
 
-model = pd.read_pickle(rnn_model_pickle_path)
-sc = pd.read_pickle(rnn_scaler_pickle_path)
+model = pd.read_pickle(model_pickle_path)
+sc = pd.read_pickle(scaler_pickle_path)
 
 
 # In[4]:
@@ -84,7 +83,7 @@ testX_num_bikes_available, testY_num_bikes_available = df_to_X_y(training_data)
 
 
 sc = StandardScaler()
-training_data = sc.fit_transform(df['num_bikes_available'].values.reshape(-1, 1))
+training_data = sc.fit_transform(df['net_station_change'].values.reshape(-1, 1))
 testX, testY = df_to_X_y(training_data)
 
 
@@ -94,41 +93,45 @@ testX, testY = df_to_X_y(training_data)
 dfPredictions = pd.DataFrame()
 
 testX_i = testX
-testXtime_i = testXtime[:, -1, 0]
-testX_num_bikes_available_i = testX_num_bikes_available[:, -1, 0]
+testXtimeAux = testXtime[:, -1, 0]
+prev_num_bikes_available = testX_num_bikes_available[:, -1, 0]
 
 testY_i = testY[:, 0, 0]
 testYTime_i = testYTime[:, 0, 0]
 testY_num_bikes_available_i = testY_num_bikes_available[:, 0, 0]
 
-for i in range(1, config.prediction_window + 1):
+for i in range(1, config['prediction_window'] + 1):
+    
     aux = model.predict(testX_i)
     predict = sc.inverse_transform(aux)
+        
     predict = predict[:, 0]
+    predict += prev_num_bikes_available
 
     dfAux = pd.DataFrame({
-        'Model' : name_model,
-        'LastTimeWithData': testXtime_i,
+        'LastTimeWithData': testXtimeAux,
         'ti': i,
         'Time': testYTime_i,
         'Predict': predict,
-        'Real': testY_num_bikes_available_i
+        'Real': testY_num_bikes_available_i,
+        #'PrevPredict': prev_num_bikes_available,
     })
     dfPredictions = pd.concat([dfPredictions, dfAux], ignore_index=True)
 
     testX_i = np.hstack((testX_i, aux[:, np.newaxis]))  #le agrego una dimension a aux para poder hacer hstack
     testX_i = testX_i[:, -seq_length:, :]   #quito la primera columna
     testX_i = testX_i[:-1]
+
+    prev_num_bikes_available = predict[:-1]
     
-    testXtime_i = testXtime_i[:-1]
-    testX_num_bikes_available_i = testX_num_bikes_available_i[:-1]
+    testXtimeAux = testXtimeAux[:-1]
 
     testY_i = testY_i[1:]
     testYTime_i = testYTime_i[1:]
     testY_num_bikes_available_i = testY_num_bikes_available_i[1:]
 
 
-# In[10]:
+# In[ ]:
 
 
 dfPredictions.to_csv(predictions_csv_path, index=False)
