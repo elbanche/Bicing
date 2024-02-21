@@ -35,7 +35,7 @@ python .\data\split_train_test.py
 python .\models\dummy\model_dummy.py
 python .\models\avg\model_avg.py
 python .\models\rnn\model_rnn.py
-python .\models\rnn_by_time\model_rnn_by_time_test.py
+python .\models\rnn_by_time\model_rnn_by_time.py
 ```
 
 4. Analyze the results from the Jupyter Notebook named 'analyze_models'.
