@@ -6,6 +6,8 @@
 
 # Description
 
+This project uses recurrent neural network (RNN) models with LSTM layers to predict the number of bicycles available at Bicing Barcelona stations in future timeframes. An approach has been implemented where individual models are generated for each time interval. During testing, the day has been divided into 30-minute intervals, resulting in a total of 48 time slots and, consequently, the creation of 48 different models. This strategy facilitates the capture of specific patterns and trends for each moment of the day. The data used in this project were provided by Bicing Barcelona and contain detailed historical information about bicycle availability at each station at different time intervals.
+
 
 # Project structure
 
