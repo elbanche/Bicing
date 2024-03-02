@@ -1,5 +1,5 @@
 {
-  "station_id": 2,
+  "station_id": 1,
   "freq_time": "30min",
   "minutes_inc": 30,
   "prediction_window": 6,
