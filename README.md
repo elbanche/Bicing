@@ -47,12 +47,12 @@ chmod +x script.sh
 2. Put all data files into the directory ./data/raw/.
 3. Configure the config.json file
 
-4. And finaly, process the data, train all models, and execute testing for each one using the following instruction
+4. Process the data, train all models, and execute testing for each one using the following instruction:
 ```
 ./script.sh
 ```
 
-4. Analyze the results from the Jupyter Notebook named 'analyze_models'.
+5. Analyze the results from the Jupyter Notebook named 'analyze_models'.
 
 # Results
 
