@@ -4,15 +4,15 @@ import os
 import json
 
 current_path = os.path.dirname(os.path.abspath(__file__))
-config_path = os.path.join(current_path, '../config.json')
+config_path = os.path.join(os.path.dirname(current_path), 'config.json')
 
 with open(config_path, 'r') as f:
     config = json.load(f)
 
-unziped_files_in_csv_path = os.path.join(current_path, './dataframes/df.csv')
-resample_csv_path = os.path.join(current_path, './dataframes/resample_csv_path.csv')
+unzipped_files_in_csv_path = os.path.join(current_path, 'dataframes', 'df.csv')
+resample_csv_path = os.path.join(current_path, 'dataframes', 'dfResample.csv')
 
-df = pd.read_csv(unziped_files_in_csv_path)
+df = pd.read_csv(unzipped_files_in_csv_path)
 
 df['last_reported_dt'] = pd.to_datetime(df['last_reported'], unit='s')
 df['last_updated_dt'] = pd.to_datetime(df['last_updated'], unit='s')

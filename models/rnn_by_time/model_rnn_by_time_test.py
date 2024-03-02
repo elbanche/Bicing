@@ -1,8 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[10]:
-
 import pandas as pd
 import pickle
 import numpy as np
@@ -12,26 +7,20 @@ import matplotlib.pyplot as plt
 import argparse
 import os
 import json
+from pathlib import Path
 
-
-# In[ ]:
+root = Path(__file__).parents[2]
+config_path = os.path.join(root, 'config.json')
 
 seq_length = 6 # model memory
-
-current_path = os.path.dirname(os.path.abspath(__file__))
-config_path = os.path.join(current_path, '../../config.json')
 
 with open(config_path, 'r') as f:
     config = json.load(f)
 
-train_csv_path = os.path.join(current_path, '../../data/dataframes/dfTrain.csv')
-test_csv_path = os.path.join(current_path, '../../data/dataframes/dfTest.csv')
-predictions_csv_path = os.path.join(current_path, './dfPredictions.csv')
-pickles_path = os.path.join(current_path, './pickles')
-
-
-# In[11]:
-
+train_csv_path = os.path.join(root, 'data', 'dataframes', 'dfTrain.csv')
+test_csv_path = os.path.join(root, 'data', 'dataframes', 'dfTest.csv')
+predictions_csv_path = os.path.join(root, 'models', 'rnn_by_time', 'dfPredictions.csv')
+pickles_path = os.path.join(root, 'models', 'rnn_by_time', 'pickles')
 
 models = []
 scs = []
@@ -52,10 +41,6 @@ while iter <= datetime.strptime('23:30', '%H:%M'):
     
     iter += timedelta(minutes=config['minutes_inc'])
 
-
-# In[12]:
-
-
 def GetModel(time):
     time = (time - time.astype('datetime64[D]')) / np.timedelta64(1, 'm')
     pos = int(time // config['minutes_inc'])
@@ -66,10 +51,6 @@ def GetSC(time):
     pos = int(time // config['minutes_inc'])
     return scs[pos]
 
-
-# In[13]:
-
-
 dfTrain = pd.read_csv(train_csv_path)
 dfTrain = dfTrain.tail(seq_length)
 
@@ -77,10 +58,6 @@ dfTest = pd.read_csv(test_csv_path)
 
 df = pd.concat([dfTrain, dfTest], ignore_index=True)
 df['time'] = pd.to_datetime(df['last_updated_dt'])
-
-
-# In[14]:
-
 
 def df_to_X_y(data):
     x = []
@@ -94,31 +71,15 @@ def df_to_X_y(data):
 
     return np.array(x),np.array(y)
 
-
-# In[15]:
-
-
 training_data = df['time'].values.reshape(-1, 1)
 testXtime, testYTime = df_to_X_y(training_data)
-
-
-# In[16]:
-
 
 training_data = df['num_bikes_available'].values.reshape(-1, 1)
 testX_num_bikes_available, testY_num_bikes_available = df_to_X_y(training_data)
 
-
-# In[17]:
-
-
 sc = StandardScaler()
 training_data = sc.fit_transform(df['net_station_change'].values.reshape(-1, 1))
 testX, testY = df_to_X_y(training_data)
-
-
-# In[18]:
-
 
 dfPredictions = pd.DataFrame()
 
@@ -167,14 +128,7 @@ for i in range(1, config['prediction_window'] + 1):
     testYTime_i = testYTime_i[1:]
     testY_num_bikes_available_i = testY_num_bikes_available_i[1:]
 
-
-# In[23]:
-
-
 dfPredictions.to_csv(predictions_csv_path, index=False)
-
-
-# In[ ]:
 
 
 

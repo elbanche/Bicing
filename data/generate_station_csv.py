@@ -7,13 +7,13 @@ import os
 import json
 
 current_path = os.path.dirname(os.path.abspath(__file__))
-config_path = os.path.join(current_path, '../config.json')
+config_path = os.path.join(os.path.dirname(current_path), 'config.json')
 
 with open(config_path, 'r') as f:
     config = json.load(f)
 
-zip_files_path = os.path.join(current_path, './raw/')
-unziped_files_in_csv_path = os.path.join(current_path, './dataframes/df.csv')
+zip_files_path = os.path.join(current_path, 'raw')
+unzipped_files_in_csv_path = os.path.join(current_path, 'dataframes', 'df.csv')
 
 first_datetime_to_test = datetime.strptime(config['first_datetime_to_test'], '%Y-%m-%d %H:%M')
 start_date = first_datetime_to_test - timedelta(days=config['days_for_training'], hours=0, minutes=0)
@@ -59,4 +59,4 @@ for file_7z_path in files:
     # Remove the extracted CSV file after loading it into the DataFrame
     os.remove(file_csv_path)
 
-df.to_csv(unziped_files_in_csv_path, index=False)
+df.to_csv(unzipped_files_in_csv_path, index=False)

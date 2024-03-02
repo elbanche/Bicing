@@ -1,37 +1,20 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[9]:
-
-
 import pandas as pd
 from datetime import datetime, timedelta
 import os 
 import json
-
-
-# In[10]:
-
+from pathlib import Path
 
 n_media_samples = 6
 
-
-# In[13]:
-
-
-current_path = os.path.dirname(os.path.abspath(__file__))
-config_path = os.path.join(current_path, '../../config.json')
+root = Path(__file__).parents[2]
+config_path = os.path.join(root, 'config.json')
 
 with open(config_path, 'r') as f:
     config = json.load(f)
 
-train_csv_path = os.path.join(current_path, '../../data/dataframes/dfTrain.csv')
-test_csv_path = os.path.join(current_path, '../../data/dataframes/dfTest.csv')
-predictions_csv_path = os.path.join(current_path, './dfPredictions.csv')
-
-
-# In[14]:
-
+train_csv_path = os.path.join(root, 'data', 'dataframes', 'dfTrain.csv')
+test_csv_path = os.path.join(root, 'data', 'dataframes', 'dfTest.csv')
+predictions_csv_path = os.path.join(root, 'models', 'avg', 'dfPredictions.csv')
 
 dfTrain = pd.read_csv(train_csv_path)
 dfTrain = dfTrain.tail(n_media_samples)
@@ -40,10 +23,6 @@ dfTest = pd.read_csv(test_csv_path)
 
 df = pd.concat([dfTrain, dfTest], ignore_index=True)
 df['time'] = pd.to_datetime(df['last_updated_dt'])
-
-
-# In[16]:
-
 
 dfPredictions = pd.DataFrame()
 
@@ -69,9 +48,6 @@ for index, row in df.iloc[n_media_samples:].iterrows():
             sum += pred
 
         sum -= df['num_bikes_available'].iloc[index + i - config['prediction_window'] - 1]
-
-
-# In[17]:
 
 
 dfPredictions.to_csv(predictions_csv_path, index=False)

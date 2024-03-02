@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -14,49 +10,31 @@ import pickle
 import argparse
 import os
 import json
+from pathlib import Path
 
-
-# In[2]:
-
+root = Path(__file__).parents[2]
+config_path = os.path.join(root, 'config.json')
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--time_of_the_day', type=str, help='Time of the day. Format: HH:MM')
 args = parser.parse_args()
 time_of_the_day = args.time_of_the_day
 
-
-# In[3]:
-
 seq_length = 6 # model memory
-
-current_path = os.path.dirname(os.path.abspath(__file__))
-config_path = os.path.join(current_path, '../../config.json')
 
 with open(config_path, 'r') as f:
     config = json.load(f)
 
-train_csv_path = os.path.join(current_path, '../../data/dataframes/dfTrain.csv')
-test_csv_path = os.path.join(current_path, '../../data/dataframes/dfTest.csv')
-predictions_csv_path = os.path.join(current_path, './dfPredictions.csv')
-pickles_path = os.path.join(current_path, './pickles')
-
-
-# In[ ]:
-
+train_csv_path = os.path.join(root, 'data', 'dataframes', 'dfTrain.csv')
+test_csv_path = os.path.join(root, 'data', 'dataframes', 'dfTest.csv')
+predictions_csv_path = os.path.join(root, 'models', 'rnn_by_time', 'dfPredictions.csv')
+pickles_path = os.path.join(root, 'models', 'rnn_by_time', 'pickles')
 
 df = pd.read_csv(train_csv_path)
 df['time'] = pd.to_datetime(df['last_updated_dt'])
 
-
-# In[ ]:
-
-
 if time_of_the_day:
     df = df[df['time'].dt.time == datetime.strptime(time_of_the_day, '%H:%M').time()]
-
-
-# In[ ]:
-
 
 def df_to_X_y(data):
     x = []
@@ -70,18 +48,10 @@ def df_to_X_y(data):
 
     return np.array(x),np.array(y)
 
-
-# In[ ]:
-
-
 sc = StandardScaler()
 training_data = sc.fit_transform(df['net_station_change'].values.reshape(-1, 1))
 
 trainX, trainY = df_to_X_y(training_data)
-
-
-# In[ ]:
-
 
 #Model Creation
 model = keras.Sequential()
@@ -91,10 +61,6 @@ model.add(layers.Dense(1))
 model.build(input_shape=trainX.shape)
 model.summary()
 
-
-# In[ ]:
-
-
 #Complile
 model.compile(
     loss=keras.losses.MeanSquaredError(),
@@ -102,19 +68,11 @@ model.compile(
     metrics=["mse"],
 )
 
-
-# In[ ]:
-
-
 #Fit
 batch_size = 4
 history = model.fit(
     trainX, trainY, batch_size=batch_size, epochs=10
 )
-
-
-# In[ ]:
-
 
 # Save
 time_of_the_day_str = ""

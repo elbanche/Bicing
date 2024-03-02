@@ -5,14 +5,14 @@ import os
 import json
 
 current_path = os.path.dirname(os.path.abspath(__file__))
-config_path = os.path.join(current_path, '../config.json')
+config_path = os.path.join(os.path.dirname(current_path), 'config.json')
 
 with open(config_path, 'r') as f:
     config = json.load(f)
 
-resample_csv_path = os.path.join(current_path, './dataframes/dfResample.csv')
-train_csv_path = os.path.join(current_path, './dataframes/dfTrain.csv')
-test_csv_path = os.path.join(current_path, './dataframes/dfTest.csv')
+resample_csv_path = os.path.join(current_path, 'dataframes', 'dfResample.csv')
+train_csv_path = os.path.join(current_path, 'dataframes', 'dfTrain.csv')
+test_csv_path = os.path.join(current_path, 'dataframes', 'dfTest.csv')
 
 first_datetime_to_test = datetime.strptime(config['first_datetime_to_test'], '%Y-%m-%d %H:%M')
 days_for_training = 300
