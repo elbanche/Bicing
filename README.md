@@ -32,13 +32,31 @@ This project uses recurrent neural network (RNN) models with LSTM layers to pred
 3. Process the data, train all models, and execute testing for each one using the following script from root:
 
 ```
-python .\data\generate_station_csv.py
-python .\data\resample_csv.py
-python .\data\split_train_test.py
-python .\models\dummy\model_dummy.py
-python .\models\avg\model_avg.py
-python .\models\rnn\model_rnn.py
-python .\models\rnn_by_time\model_rnn_by_time.py
+sudo apt-get update
+```
+
+```
+sudo apt-get install python3-pip
+```
+
+```
+git clone https://github.com/elbanche/Bikesharing_Forecast_with_LSTM-RNN_using_BicingBCN_data.git
+```
+
+```
+cd Bikesharing_Forecast_with_LSTM-RNN_using_BicingBCN_data
+```
+
+```
+pip install -r requirements.txt
+```
+
+```
+chmod +x script.sh
+```
+
+```
+./script.sh
 ```
 
 4. Analyze the results from the Jupyter Notebook named 'analyze_models'.
