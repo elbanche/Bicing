@@ -18,7 +18,7 @@ while iter <= datetime.strptime('23:30', '%H:%M'):
     time_of_the_day = iter.strftime('%H:%M')
     print("TIME OF THE DAY: " + time_of_the_day)
 
-    command = ["python", model_rnn_by_time_create, "--time_of_the_day", time_of_the_day]
+    command = ["python3", model_rnn_by_time_create, "--time_of_the_day", time_of_the_day]
     result = subprocess.run(command, capture_output=True, text=True)
 
     print(result.stdout)
@@ -26,7 +26,7 @@ while iter <= datetime.strptime('23:30', '%H:%M'):
     
     iter += timedelta(minutes=config['minutes_inc'])
 
-command = ["python", model_rnn_by_time_test]
+command = ["python3", model_rnn_by_time_test]
 result = subprocess.run(command, capture_output=True, text=True)
 print(result.stdout)
 print(result.stderr)

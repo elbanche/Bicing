@@ -51,9 +51,9 @@ df['net_station_change'] = (df.groupby(['station_id']).num_bikes_available.shift
 df['station_undock'] = df.net_station_change.apply(lambda x: x if x < 0 else 0)
 df['station_dock'] = df.net_station_change.apply(lambda x: x if x > 0 else 0)
 
-df['net_station_change'].fillna(0, inplace=True)
-df['station_undock'].fillna(0, inplace=True)
-df['station_dock'].fillna(0, inplace=True)
+df['net_station_change'] = df['net_station_change'].fillna(0)
+df['station_undock'] = df['station_undock'].fillna(0)
+df['station_dock'] = df['station_dock'].fillna(0)
 
 df['hour'] = df.index.get_level_values(1).hour
 df['day'] = df.index.get_level_values(1).day
