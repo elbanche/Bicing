@@ -20,7 +20,7 @@ This project uses recurrent neural network (RNN) models with LSTM layers to pred
 
 `./models/analyze_models.ipynb`: Collect the predictions made by each of the models in a single location, and then analyze the results.
 
-`./config.py`: Centralized configuration file.
+`./config.json`: Centralized configuration file.
 
 
 # Instructions to run
