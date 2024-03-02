@@ -25,42 +25,29 @@ This project uses recurrent neural network (RNN) models with LSTM layers to pred
 
 # Instructions to run
 
-1.
+1. Prepare the development environment:
 ```
 sudo apt-get update
 ```
-
-2.
 ```
 sudo apt-get install python3-pip
 ```
-
-3.
 ```
 git clone https://github.com/elbanche/Bikesharing_Forecast_with_LSTM-RNN_using_BicingBCN_data.git
 ```
-
-4.
 ```
 cd Bikesharing_Forecast_with_LSTM-RNN_using_BicingBCN_data
 ```
-
-5.
 ```
 pip install -r requirements.txt
 ```
-
-6.
 ```
 chmod +x script.sh
 ```
+2. Put all data files into the directory ./data/raw/.
+3. Configure the config.json file
 
-7. Put all data files into the directory ./data/raw/.
-8. Configure the config.json file
-
-
-
-9. And finaly, process the data, train all models, and execute testing for each one using the following instruction
+4. And finaly, process the data, train all models, and execute testing for each one using the following instruction
 ```
 ./script.sh
 ```
